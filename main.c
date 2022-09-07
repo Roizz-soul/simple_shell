@@ -1,7 +1,6 @@
 #include <stdio.h>
 
 /**
- * This is a simple code that adds two integers
  * main - entry point
  * Return: 0
  */
