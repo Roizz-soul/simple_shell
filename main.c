@@ -29,7 +29,7 @@ int main(void)
 	if (my_pid == 0)
 	{
 		if (execve(argv[0], argv, NULL) == -1)
-			perror("Failed");
+			perror("./shell");
 	} else
 	{
 		wait(&status);
