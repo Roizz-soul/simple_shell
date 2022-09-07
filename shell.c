@@ -6,15 +6,16 @@
 int runShell()
 {
 	pid_t my_pid;
-	int i, status;
+	int i, status, j;
 	ssize_t h = -1, bytes;
 	size_t size = 0;
-	char *cmd, *argv[] = {NULL, NULL, NULL, NULL};
+	char *cmd, *token, *argv[] = {NULL, NULL, NULL, NULL};
 	/* Display of our shell, getline stores user input in cmd */
 	printf("#cisfun ");
 	bytes = getline(&cmd, &size, stdin);
 	if (bytes == h)
 		exit(0);
+
 	/* While loop to remove the newline char from cmd */
 	i = 0;
 	while (cmd[i])
@@ -23,9 +24,23 @@ int runShell()
 			cmd[i] = '\0';
 		i++;
 	}
+	if (strcmp(cmd, "env") == 0 || strcmp(cmd, "printenv") == 0)
+	{
+		for (i = 0; environ[i] != NULL; i++)
+			printf("%s\n", environ[i]);
+		runShell();
+		exit(0);
+	}
 	/* Creating a child process for execve */
 	my_pid = fork();
-	argv[0] = cmd;
+	token = strtok(cmd, " ");
+	j = 0;
+	while (token != NULL)
+	{
+		argv[j] = token;
+		token = strtok(NULL, " ");
+		j++;
+	}
 	if (my_pid == 0)
 	{
 		if (execve(argv[0], argv, NULL) == -1)
