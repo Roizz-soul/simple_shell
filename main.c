@@ -3,7 +3,7 @@
 /**
  * This is a simple code that adds two integers
  * main - entry point
- * Return: result
+ * Return: 0
  */
 
 int main(void)
@@ -13,6 +13,7 @@ int main(void)
 	a = 1;
 	b = 2;
 	result = a + b;
+	printf("%d\n", result);
 
-	return (result);
+	return (0);
 }
