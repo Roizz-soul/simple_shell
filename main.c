@@ -32,11 +32,9 @@ int main(void)
 			perror("Failed");
 	} else
 	{
-		if (bytes == h)
-			exit(0);
 		wait(&status);
+		main();
 	}
-	main();
 
 	return (0);
 }
