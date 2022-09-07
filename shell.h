@@ -8,5 +8,6 @@
 #include <sys/types.h>
 #include <string.h>
 extern char **environ;
+int runShell();
 
 #endif
