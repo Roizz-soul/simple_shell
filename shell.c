@@ -6,11 +6,11 @@
 int runShell()
 {
 	pid_t my_pid;
-	int i, status, j;
+	int i, status, j, k = 1;
 	ssize_t h = -1, bytes;
 	size_t size = 0;
 	char *cmd = NULL, *token, *argv[] = {NULL, NULL, NULL, NULL};
-	while (1)
+	while (k == 1)
 	{
 		/* Display of our shell, getline stores user input in cmd*/
 		i = isatty(STDIN_FILENO);
@@ -19,8 +19,9 @@ int runShell()
 		bytes = getline(&cmd, &size, stdin);
 		if (bytes == h)
 		{
-			free(cmd);
-			return (0);
+			k = 0;
+			/*kill(getpid(), SIGTERM);*/
+			break;
 		}
 
 		/* While loop to remove the newline char from cmd */
@@ -31,29 +32,35 @@ int runShell()
 				cmd[i] = '\0';
 			i++;
 		}
-		if (strcmp(cmd, "env") == 0 || strcmp(cmd, "printenv") == 0)
+		if (strcmp(cmd, "exit") == 0)
+		{
+			free(cmd);
+			break;
+		} else if (strcmp(cmd, "env") == 0 || strcmp(cmd, "printenv") == 0)
 		{
 			for (i = 0; environ[i] != NULL; i++)
 				printf("%s\n", environ[i]);
 			exit(0);
-		}
-		/* Creating a child process for execve */
-		my_pid = fork();
-		token = strtok(cmd, " ");
-		j = 0;
-		while (token != NULL)
-		{
-			argv[j] = token;
-			token = strtok(NULL, " ");
-			j++;
-		}
-		if (my_pid == 0)
-		{
-			if (execve(argv[0], argv, NULL) == -1)
-				perror("./shell");
 		} else
 		{
-			wait(&status);
+			/* Creating a child process for execve */
+			my_pid = fork();
+			token = strtok(cmd, " ");
+			j = 0;
+			while (token != NULL)
+			{
+				argv[j] = token;
+				token = strtok(NULL, " ");
+				j++;
+			}
+			if (my_pid == 0)
+			{
+				if (execve(argv[0], argv, NULL) == -1)
+					perror("./shell");
+				free(cmd);
+				kill(getpid(), SIGTERM);
+			} else
+				wait(&status);
 		}
 	}
 
