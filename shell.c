@@ -40,7 +40,7 @@ int runShell()
 		{
 			for (i = 0; environ[i] != NULL; i++)
 				printf("%s\n", environ[i]);
-			exit(0);
+			break;
 		} else
 		{
 			/* Creating a child process for execve */
@@ -58,7 +58,8 @@ int runShell()
 				if (execve(argv[0], argv, NULL) == -1)
 					perror("./shell");
 				free(cmd);
-				kill(getpid(), SIGTERM);
+				/*kill(getpid(), SIGTERM);*/
+				exit(0);
 			} else
 				wait(&status);
 		}
