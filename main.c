@@ -1,11 +1,25 @@
 #include "shell.h"
+
 /**
-  * main - entry point
-  * Return: zero
+  * main - shell code
+  * Return: 0
   */
 int main(void)
 {
-	runShell();
+	while (1)
+	{
+		char *line;
+		char **tokens;
 
+		printf("My_shell:$ ");
+
+		line = read_line();
+		tokens = split_line(line);
+
+		if (tokens[0] != NULL)
+			shell_exec(tokens);
+		free(tokens);
+		free(line);
+	}
 	return (0);
 }
