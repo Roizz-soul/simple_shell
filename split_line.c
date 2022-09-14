@@ -1,6 +1,6 @@
 #include "shell.h"
 /**
-  * split_line - splits a line into wrds / tokens
+  * split_line - splits a line into words / tokens
   * @line: line to be splitted
   * Return: tokens
   */
@@ -25,5 +25,10 @@ char **split_line(char *line)
 		token = strtok(NULL, delimiters);
 	}
 	tokens[length] = NULL;
+	/*if (access(tokens[0], F_OK) == -1)
+	{
+		free(tokens);
+		tokens = NULL;
+	}*/
 	return (tokens);
 }

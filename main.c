@@ -9,7 +9,7 @@ int main(void)
 	while (1)
 	{
 		char *line;
-		char **tokens;
+		char **stokens;
 		int i;
 
 		i = isatty(STDIN_FILENO);
@@ -19,13 +19,14 @@ int main(void)
 		line = read_line();
 		if (line == NULL)
 		{
+			/*free(line);*/
 			break;
 		}
-		tokens = split_line(line);
+		stokens = split_line(line);
 
-		if (tokens[0] != NULL)
-			shell_exec(tokens);
-		free(tokens);
+		if (stokens[0] != NULL)
+			shell_exec(stokens);
+		free(stokens);
 		free(line);
 	}
 	return (0);

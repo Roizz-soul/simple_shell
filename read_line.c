@@ -5,12 +5,28 @@
   */
 char *read_line(void)
 {
-	char *line = NULL;
+	char *cmdline = NULL;
 	size_t buffer = 0;
 	ssize_t ret;
+	int i;
 
-	ret = getline(&line, &buffer, stdin);
+	ret = getline(&cmdline, &buffer, stdin);
 	if (ret == -1)
+	{
+		free(cmdline);
 		return(NULL);
-	return (line);
+	}
+	i = 0;
+	while (cmdline[i])
+	{
+		if (cmdline[i] == '\n')
+			cmdline[i] = '\0';
+		i++;
+	}
+	/*if (access(cmdline, F_OK) == -1)
+	{
+		free(cmdline);
+		return ("jk");
+	}*/
+	return (cmdline);
 }
