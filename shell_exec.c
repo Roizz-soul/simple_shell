@@ -34,6 +34,11 @@ void shell_exec(char **args)
 			return;
 		}
 	}*/
+	if (access(args[0], F_OK) == -1)
+	{
+		perror(args[0]);
+		return;
+	}
 
 	child_pid = fork();
 

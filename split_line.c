@@ -8,12 +8,20 @@ char **split_line(char *line)
 {
 	int length = 0, capacity = 16;
 	char **tokens = malloc(capacity * sizeof(char *));
-	char *delimiters = " \t\r\n";
+	char *delimiters = " \t\r\n", tch[20] = "";
 	char *token = strtok(line, delimiters);
 
+	if (access(token, F_OK) == -1)
+	{
+		strcat(tch, "/bin/");
+		strcat(tch, token);
+	}
 	while (token != NULL)
 	{
-		tokens[length] = token;
+		if (length == 0 && tch[0] != '\0')
+			tokens[length] = tch;
+		else
+			tokens[length] = token;
 		length++;
 
 		if (length >= capacity)
@@ -27,8 +35,10 @@ char **split_line(char *line)
 	tokens[length] = NULL;
 	/*if (access(tokens[0], F_OK) == -1)
 	{
-		free(tokens);
-		tokens = NULL;
-	}*/
+		tch = tokens[0];
+		tokens[0] = realloc(tokens[0], (sizeof(tch) + sizeof("/bin/")));
+		tokens[0] = "/bin/";
+		strcat(tokens[0], tch);
+	*/
 	return (tokens);
 }
