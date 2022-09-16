@@ -8,7 +8,7 @@ char **split_line(char *line)
 {
 	int length = 0, capacity = 16;
 	char **tokens = malloc(capacity * sizeof(char *));
-	char *delimiters = " \t\r\n", tch[20] = "";
+	char *delimiters = " \t\r\n", tch[1024] = "";
 	char *token = strtok(line, delimiters);
 
 	if (access(token, F_OK) == -1)

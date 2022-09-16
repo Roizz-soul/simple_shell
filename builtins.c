@@ -3,10 +3,10 @@
   * My_exit - exits the shell
   * @args: argument
   */
-/*void My_exit(char __attribute__ ((unused)) **args)
+void My_exit(char __attribute__ ((unused)) **args)
 {
 	exit(0);
-}*/
+}
 /**
   * _cd - change working directory
   * @args: argument

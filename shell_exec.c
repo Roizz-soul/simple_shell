@@ -4,19 +4,19 @@
   * struct builtin builtins - yeah
   * Description: funcion selecter
   */
-/*struct builtin builtins[] = {
-	{"help", _help},
-	{"exit", My_exit},
-	{"cd", _cd},
-};*/
+struct builtin builtins[] = {
+	/*{"help", _help},*/
+	{"/bin/exit", My_exit},
+	/*{"cd", _cd},*/
+};
 /**
   * num_of_builtins - number of builtins
   * Return: integer
   */
-/*int num_of_builtins(void)
+int num_of_builtins(void)
 {
 	return (sizeof(builtins) / sizeof(struct builtin));
-}*/
+}
 /**
   * shell_exec - executes commands
   * @args: command and arguments
@@ -24,9 +24,9 @@
 void shell_exec(char **args)
 {
 	pid_t child_pid;
-	/*int i;
+	int i;
 
-	for (i = 0; i < num_of_builtins(); i++)
+	/*for (i = 0; i < num_of_builtins(); i++)
 	{
 		if (strcmp(args[0], builtins[i].name) == 0)
 		{
@@ -36,6 +36,14 @@ void shell_exec(char **args)
 	}*/
 	if (access(args[0], F_OK) == -1)
 	{
+		for (i = 0; i < num_of_builtins(); i++)
+		{
+			if (strcmp(args[0], builtins[i].name) == 0)
+			{
+				builtins[i].func(args);
+				return;
+			}
+		}
 		perror(args[0]);
 		return;
 	}
